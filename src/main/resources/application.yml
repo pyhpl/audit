@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: audit
+  redis:
+    host: localhost
+    password: sc_admin
+  datasource:
+    url: jdbc:postgresql://localhost:5432/look_activity
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 8443
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
