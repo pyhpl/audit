@@ -38,6 +38,6 @@ public class ActivityAuditController {
     @PutMapping("/api/activity-audit/s")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@Validated @RequestBody ActivityAudit activityAudit) {
-
+        activityAuditService.update(activityAudit);
     }
 }

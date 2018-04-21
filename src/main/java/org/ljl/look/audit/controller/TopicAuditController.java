@@ -38,7 +38,7 @@ public class TopicAuditController {
     @PutMapping("/api/activity-audit/s")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@Validated @RequestBody TopicAudit topicAudit) {
-
+        topicAuditService.update(topicAudit);
     }
 
 }

@@ -24,7 +24,7 @@ public class ActivityAuditService {
     }
 
     public void update(ActivityAudit activityAudit) {
-
+        activityAuditMapper.update(activityAudit);
     }
 
 }

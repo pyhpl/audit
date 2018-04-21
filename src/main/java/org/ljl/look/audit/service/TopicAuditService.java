@@ -23,4 +23,8 @@ public class TopicAuditService {
         return topicAuditMapper.selectByState(state);
     }
 
+    public void update(TopicAudit topicAudit) {
+        topicAuditMapper.update(topicAudit);
+    }
+
 }

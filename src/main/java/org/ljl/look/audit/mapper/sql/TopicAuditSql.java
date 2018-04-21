@@ -1,26 +1,26 @@
 package org.ljl.look.audit.mapper.sql;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.ljl.look.audit.entity.ActivityAudit;
+import org.ljl.look.audit.entity.TopicAudit;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ActivityAuditSql {
+public class TopicAuditSql {
 
-    public String update(ActivityAudit activityAudit) {
+    public String update(TopicAudit topicAudit) {
         return new SQL() {{
             INSERT_INTO("activity_audit");
-            if (activityAudit.getAuditUser() != null) {
+            if (topicAudit.getAuditUser() != null) {
                 VALUES("audit_user", "#{auditUser}");
             }
-            if (activityAudit.getActivityUuid() != null) {
-                VALUES("activity_uuid", "#{activityUuid}");
+            if (topicAudit.getTopicUuid() != null) {
+                VALUES("topic_uuid", "#{topicUuid}");
             }
-            if (activityAudit.getSuggestion() != null) {
+            if (topicAudit.getSuggestion() != null) {
                 VALUES("suggestion", "#{suggestion}");
             }
                 VALUES("state", "#{state}");
-            if (activityAudit.getAuditDate() != null) {
+            if (topicAudit.getAuditDate() != null) {
                 VALUES("audit_date", "#{auditDate}");
             }
             WHERE("uuid=#{uuid}").AND().WHERE("valid=${@org.ljl.look.audit.configuration.ConstConfig@VALID}");
