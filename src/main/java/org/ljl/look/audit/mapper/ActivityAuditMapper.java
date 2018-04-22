@@ -20,4 +20,7 @@ public interface ActivityAuditMapper {
     @UpdateProvider(type = ActivityAuditSql.class, method = "update")
     void update(ActivityAudit activityAudit);
 
+    @Select("SELECT * FROM activity_audit WHERE activity_uuid=#{activityUuid}::uuid")
+    ActivityAudit selectByActivityUuid(@Param("activityUuid") String activityUuid);
+
 }

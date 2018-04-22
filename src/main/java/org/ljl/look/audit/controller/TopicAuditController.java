@@ -26,16 +26,25 @@ public class TopicAuditController {
         }};
     }
 
-    @GetMapping("/api/topic-audit/s")
+    @GetMapping("/api/topic-audit")
     @ResponseStatus(HttpStatus.OK)
-    public List<TopicAudit> gets(@RequestParam(required = false, defaultValue = "") String state) {
-        if (state.equals(ConstConfig.WAITTING_AUDIT_STATE_STR)) {
-            return topicAuditService.getByState(ConstConfig.WAITTING_AUDIT_STATE);
+    public TopicAudit get(@RequestParam(required = false, defaultValue = "") String topicUuid) {
+        if (!topicUuid.equals("")) {
+            return topicAuditService.getByTopicUuid(topicUuid);
         }
         return null;
     }
 
-    @PutMapping("/api/activity-audit/s")
+    @GetMapping("/api/topic-audit/s")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TopicAudit> gets(@RequestParam(required = false, defaultValue = "") String state) {
+        if (state.equals(ConstConfig.WAITING_AUDIT_STATE_STR)) {
+            return topicAuditService.getByState(ConstConfig.WAITING_AUDIT_STATE);
+        }
+        return null;
+    }
+
+    @PutMapping("/api/topic-audit/s")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@Validated @RequestBody TopicAudit topicAudit) {
         topicAuditService.update(topicAudit);

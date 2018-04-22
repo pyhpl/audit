@@ -5,7 +5,7 @@ spring:
     host: localhost
     password: sc_admin
   datasource:
-    url: jdbc:postgresql://localhost:5432/look_activity
+    url: jdbc:postgresql://localhost:5432/look_audit
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -13,7 +13,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 server:
-  port: 8443
+  port: 8855
 eureka:
   client:
     service-url:

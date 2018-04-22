@@ -23,6 +23,10 @@ public class TopicAuditService {
         return topicAuditMapper.selectByState(state);
     }
 
+    public TopicAudit getByTopicUuid(String uuid) {
+        return topicAuditMapper.selectByTopicUuid(uuid);
+    }
+
     public void update(TopicAudit topicAudit) {
         topicAuditMapper.update(topicAudit);
     }

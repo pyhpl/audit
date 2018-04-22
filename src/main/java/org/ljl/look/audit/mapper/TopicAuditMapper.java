@@ -17,6 +17,9 @@ public interface TopicAuditMapper {
     @Select("SELECT * FROM topic_audit WHERE state=#{state}")
     List<TopicAudit> selectByState(@Param("state") short state);
 
+    @Select("SELECT * FROM topic_audit WHERE topic_uuid=#{topicUuid}::uuid")
+    TopicAudit selectByTopicUuid(@Param("topicUuid") String topicUuid);
+
     @UpdateProvider(type = TopicAuditSql.class, method = "update")
     void update(TopicAudit topicAudit);
 }

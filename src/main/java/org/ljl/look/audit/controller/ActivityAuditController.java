@@ -17,6 +17,15 @@ public class ActivityAuditController {
     @Autowired
     private ActivityAuditService activityAuditService;
 
+    @GetMapping("/api/activity-audit")
+    @ResponseStatus(HttpStatus.OK)
+    public ActivityAudit get(@RequestParam(required = false, defaultValue = "") String activityUuid) {
+        if (!activityUuid.equals("")) {
+            return activityAuditService.getByActivityUuid(activityUuid);
+        }
+        return null;
+    }
+
     @PostMapping("/api/activity-audit")
     @ResponseStatus(HttpStatus.CREATED)
     public HttpHeaders post(@Validated @RequestBody ActivityAudit activityAudit) {
@@ -29,8 +38,8 @@ public class ActivityAuditController {
     @GetMapping("/api/activity-audit/s")
     @ResponseStatus(HttpStatus.OK)
     public List<ActivityAudit> gets(@RequestParam(required = false, defaultValue = "") String state) {
-        if (state.equals(ConstConfig.WAITTING_AUDIT_STATE_STR)) {
-            return activityAuditService.getByState(ConstConfig.WAITTING_AUDIT_STATE);
+        if (state.equals(ConstConfig.WAITING_AUDIT_STATE_STR)) {
+            return activityAuditService.getByState(ConstConfig.WAITING_AUDIT_STATE);
         }
         return null;
     }

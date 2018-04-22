@@ -21,22 +21,34 @@ public class CommonAttributeAspect {
     @Pointcut("execution(public * org.ljl.look.audit.service.TopicAuditService.add(..))")
     public void addTopicAudit(){}
 
+    @Pointcut("execution(public * org.ljl.look.audit.service.TopicAuditService.update(..))")
+    public void updateTopicAudit(){}
+
     @Pointcut("execution(public * org.ljl.look.audit.service.ActivityAuditService.add(..))")
     public void addActivityAudit(){}
 
+    @Pointcut("execution(public * org.ljl.look.audit.service.ActivityAuditService.update(..))")
+    public void updateActivityAudit(){}
 
-    @Before("addTopicAudit()||addActivityAudit()")
-    public void doBeforeAdd(JoinPoint joinPoint) throws Exception {
+
+    @Before("addTopicAudit()||addActivityAudit()||updateTopicAudit()||updateActivityAudit()")
+    public void doBefore(JoinPoint joinPoint) throws Exception {
         Object arg = joinPoint.getArgs()[0];
         if (arg instanceof TopicAudit) { // TopicAudit
             TopicAudit topicAudit = (TopicAudit) arg;
-            topicAudit.setUuid(UuidTool.getValue());
-            topicAudit.setAuditDate(new Date());
-            topicAudit.setValid(ConstConfig.UNVALID);
+            if (joinPoint.getSignature().getName().equals("add")) {
+                topicAudit.setUuid(UuidTool.getValue());
+            } else if (joinPoint.getSignature().getName().equals("update")) {
+                topicAudit.setAuditDate(new Date());
+            }
+            topicAudit.setValid(ConstConfig.VALID);
         } else if (arg instanceof ActivityAudit) {
             ActivityAudit activityAudit = (ActivityAudit) arg;
-            activityAudit.setUuid(UuidTool.getValue());
-            activityAudit.setAuditDate(new Date());
+            if (joinPoint.getSignature().getName().equals("add")) {
+                activityAudit.setUuid(UuidTool.getValue());
+            } else if (joinPoint.getSignature().getName().equals("update")) {
+                activityAudit.setAuditDate(new Date());
+            }
             activityAudit.setValid(ConstConfig.UNVALID);
         }
     }

@@ -27,4 +27,7 @@ public class ActivityAuditService {
         activityAuditMapper.update(activityAudit);
     }
 
+    public ActivityAudit getByActivityUuid(String activityUuid) {
+        return activityAuditMapper.selectByActivityUuid(activityUuid);
+    }
 }
