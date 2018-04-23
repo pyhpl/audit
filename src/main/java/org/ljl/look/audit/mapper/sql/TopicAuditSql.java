@@ -7,23 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class TopicAuditSql {
 
-    public String update(TopicAudit topicAudit) {
+    public String updateByAuditUser(TopicAudit topicAudit) {
         return new SQL() {{
-            INSERT_INTO("activity_audit");
-            if (topicAudit.getAuditUser() != null) {
-                VALUES("audit_user", "#{auditUser}");
-            }
-            if (topicAudit.getTopicUuid() != null) {
-                VALUES("topic_uuid", "#{topicUuid}");
-            }
+            UPDATE("topic_audit");
             if (topicAudit.getSuggestion() != null) {
-                VALUES("suggestion", "#{suggestion}");
+                SET("suggestion=#{suggestion}");
             }
-                VALUES("state", "#{state}");
+                SET("state=#{state}");
             if (topicAudit.getAuditDate() != null) {
-                VALUES("audit_date", "#{auditDate}");
+                SET("audit_date=#{auditDate}");
             }
-            WHERE("uuid=#{uuid}").AND().WHERE("valid=${@org.ljl.look.audit.configuration.ConstConfig@VALID}");
+            WHERE("uuid=#{uuid}::uuid")
+                    .AND().WHERE("audit_user=#{auditUser}");
         }}.toString();
     }
 

@@ -38,7 +38,7 @@ public class CommonAttributeAspect {
             TopicAudit topicAudit = (TopicAudit) arg;
             if (joinPoint.getSignature().getName().equals("add")) {
                 topicAudit.setUuid(UuidTool.getValue());
-            } else if (joinPoint.getSignature().getName().equals("update")) {
+            } else if (joinPoint.getSignature().getName().equals("update") && topicAudit.getState() != ConstConfig.WAITING_AUDIT_STATE) {
                 topicAudit.setAuditDate(new Date());
             }
             topicAudit.setValid(ConstConfig.VALID);
@@ -46,10 +46,10 @@ public class CommonAttributeAspect {
             ActivityAudit activityAudit = (ActivityAudit) arg;
             if (joinPoint.getSignature().getName().equals("add")) {
                 activityAudit.setUuid(UuidTool.getValue());
-            } else if (joinPoint.getSignature().getName().equals("update")) {
+            } else if (joinPoint.getSignature().getName().equals("update") && activityAudit.getState() != ConstConfig.WAITING_AUDIT_STATE) {
                 activityAudit.setAuditDate(new Date());
             }
-            activityAudit.setValid(ConstConfig.UNVALID);
+            activityAudit.setValid(ConstConfig.VALID);
         }
     }
 }

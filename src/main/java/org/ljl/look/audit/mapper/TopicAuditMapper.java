@@ -17,9 +17,15 @@ public interface TopicAuditMapper {
     @Select("SELECT * FROM topic_audit WHERE state=#{state}")
     List<TopicAudit> selectByState(@Param("state") short state);
 
+    @Select("SELECT * FROM topic_audit WHERE state=#{state} AND audit_user IS NULL")
+    List<TopicAudit> selectByStateAndNullAuditUser(@Param("state") short state);
+
     @Select("SELECT * FROM topic_audit WHERE topic_uuid=#{topicUuid}::uuid")
     TopicAudit selectByTopicUuid(@Param("topicUuid") String topicUuid);
 
-    @UpdateProvider(type = TopicAuditSql.class, method = "update")
-    void update(TopicAudit topicAudit);
+    @UpdateProvider(type = TopicAuditSql.class, method = "updateByAuditUser")
+    void updateByAuditUser(TopicAudit topicAudit);
+
+    @Update("UPDATE topic_audit SET audit_user=#{auditUser} WHERE uuid=#{uuid}::uuid")
+    void updateAuditUserByUuid(@Param("auditUser") String auditUser, @Param("uuid") String uuid);
 }

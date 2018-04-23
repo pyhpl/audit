@@ -9,21 +9,17 @@ public class ActivityAuditSql {
 
     public String update(ActivityAudit activityAudit) {
         return new SQL() {{
-            INSERT_INTO("activity_audit");
-            if (activityAudit.getAuditUser() != null) {
-                VALUES("audit_user", "#{auditUser}");
-            }
-            if (activityAudit.getActivityUuid() != null) {
-                VALUES("activity_uuid", "#{activityUuid}");
-            }
+            UPDATE("activity_audit");
             if (activityAudit.getSuggestion() != null) {
-                VALUES("suggestion", "#{suggestion}");
+                SET("suggestion", "#{suggestion}");
             }
-                VALUES("state", "#{state}");
+            SET("state", "#{state}");
             if (activityAudit.getAuditDate() != null) {
-                VALUES("audit_date", "#{auditDate}");
+                SET("audit_date", "#{auditDate}");
             }
-            WHERE("uuid=#{uuid}").AND().WHERE("valid=${@org.ljl.look.audit.configuration.ConstConfig@VALID}");
+            WHERE("uuid=#{uuid}")
+                    .AND().WHERE("audit_user=#{auditUser}")
+                    .AND().WHERE("valid=${@org.ljl.look.audit.configuration.ConstConfig@VALID}");
         }}.toString();
     }
 

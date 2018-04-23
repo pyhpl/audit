@@ -5,6 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.ljl.look.audit.configuration.ConstConfig;
 import org.ljl.look.audit.entity.ActivityAudit;
 import org.ljl.look.audit.entity.TopicAudit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,15 @@ public class OpenIdAspect {
         String openId = stringRedisTemplate.opsForValue().get(request.getHeader("token"));
         Arrays.stream(joinPoint.getArgs()).forEach(arg -> {
             if (arg instanceof TopicAudit) {
-                ((TopicAudit) arg).setAuditUser(openId);
+                TopicAudit topicAudit = ((TopicAudit) arg);
+                if (topicAudit.getState() != ConstConfig.WAITING_AUDIT_STATE) {
+                    topicAudit.setAuditUser(openId);
+                }
             } else if (arg instanceof ActivityAudit) {
-                ((ActivityAudit) arg).setAuditUser(openId);
+                ActivityAudit activityAudit = ((ActivityAudit) arg);
+                if (activityAudit.getState() != ConstConfig.WAITING_AUDIT_STATE) {
+                    activityAudit.setAuditUser(openId);
+                }
             }
         });
     }

@@ -44,7 +44,13 @@ public class TopicAuditController {
         return null;
     }
 
-    @PutMapping("/api/topic-audit/s")
+    @GetMapping("/api/user/topic-audit/s")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TopicAudit> getsUserAudited(@RequestHeader("token") String token) {
+        return topicAuditService.getsUserAudited(token);
+    }
+
+    @PutMapping("/api/topic-audit")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@Validated @RequestBody TopicAudit topicAudit) {
         topicAuditService.update(topicAudit);
