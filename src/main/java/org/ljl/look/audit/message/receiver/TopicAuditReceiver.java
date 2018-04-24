@@ -3,8 +3,7 @@ package org.ljl.look.audit.message.receiver;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.ljl.look.audit.configuration.ConstConfig;
 import org.ljl.look.audit.entity.TopicAudit;
-import org.ljl.look.audit.message.sender.TopicFocusSender;
-import org.ljl.look.audit.message.wrapper.Message;
+import org.ljl.look.audit.message.wrapper.MessageWrapper;
 import org.ljl.look.audit.service.TopicAuditService;
 import org.ljl.look.audit.util.JsonTool;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -21,13 +20,13 @@ public class TopicAuditReceiver {
 
     @RabbitHandler
     public void process(String topicAuditMessageJson) {
-        Message<TopicAudit> topicAuditMessage = JsonTool.fromJson(topicAuditMessageJson, new TypeReference<Message<TopicAudit>>() {});
-        switch (topicAuditMessage.getMethod()) {
+        MessageWrapper<TopicAudit> topicAuditMessageWrapper = JsonTool.fromJson(topicAuditMessageJson, new TypeReference<MessageWrapper<TopicAudit>>() {});
+        switch (topicAuditMessageWrapper.getMethod()) {
             case POST:
-                topicAuditService.add(topicAuditMessage.getBody());
+                topicAuditService.add(topicAuditMessageWrapper.getBody());
                 break;
             case PUT:
-                topicAuditService.update(topicAuditMessage.getBody());
+                topicAuditService.update(topicAuditMessageWrapper.getBody());
                 break;
         }
     }

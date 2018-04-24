@@ -2,7 +2,7 @@ package org.ljl.look.audit.message.sender;
 
 import org.ljl.look.audit.configuration.ConstConfig;
 import org.ljl.look.audit.entity.TopicFocus;
-import org.ljl.look.audit.message.wrapper.Message;
+import org.ljl.look.audit.message.wrapper.MessageWrapper;
 import org.ljl.look.audit.util.JsonTool;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class TopicFocusSender {
         rabbitTemplate.convertAndSend(
                 ConstConfig.QUEUE_TOPIC_FOCUS,
                 JsonTool.toJson(
-                        Message.builder().method(Message.MessageMethod.POST).body(topicFocus).build()
+                        MessageWrapper.builder().method(MessageWrapper.MessageMethod.POST).body(topicFocus).build()
                 )
         );
     }
