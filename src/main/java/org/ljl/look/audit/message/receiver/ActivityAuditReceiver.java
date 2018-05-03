@@ -25,6 +25,8 @@ public class ActivityAuditReceiver {
             case POST:
                 activityAuditService.add(activityAuditMessageWrapper.getBody());
                 break;
+            case PUT:
+                activityAuditService.update(activityAuditMessageWrapper.getBody());
         }
 
     }

@@ -23,4 +23,18 @@ public class ActivityAuditSql {
         }}.toString();
     }
 
+    public String updateByAuditUser(ActivityAudit activityAudit) {
+        return new SQL() {{
+            UPDATE("activity_audit");
+            if (activityAudit.getSuggestion() != null) {
+                SET("suggestion=#{suggestion}");
+            }
+            SET("state=#{state}");
+            if (activityAudit.getAuditDate() != null) {
+                SET("audit_date=#{auditDate}");
+            }
+            WHERE("uuid=#{uuid}::uuid")
+                    .AND().WHERE("audit_user=#{auditUser}");
+        }}.toString();
+    }
 }

@@ -44,7 +44,13 @@ public class ActivityAuditController {
         return null;
     }
 
-    @PutMapping("/api/activity-audit/s")
+    @GetMapping("/api/user/activity-audit/s")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ActivityAudit> getsUserAudited(@RequestHeader("token") String token) {
+        return activityAuditService.getsUserAudited(token);
+    }
+
+    @PutMapping("/api/activity-audit")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void put(@Validated @RequestBody ActivityAudit activityAudit) {
         activityAuditService.update(activityAudit);
